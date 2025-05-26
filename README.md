@@ -115,7 +115,7 @@ const useTodoStore = create((set, get) => ({
 
 ---
 
-## 🧪 Demo
+## 🧪 Strona
 
 🔗 [Zobacz działającą wersję](https://todoapka.web.app)
 
