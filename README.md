@@ -135,14 +135,18 @@ Projekt edukacyjny. Można korzystać, rozwijać, rozbudowywać ✌️
 ```
 src/
 ├── components/
-│   ├── TodoForm.jsx
-│   ├── TodoList.jsx
-│   └── TodoItem.jsx
+│   ├── AnimatedBackground.tsx
+│   ├── Login.tsx
+│   ├── TodoForm.tsx
+│   ├── TodoList.tsx
+│   └── TodoItem.tsx
 ├── store/
-│   └── todoStore.js
-├── firebase.js
-├── App.jsx
-└── main.jsx
+│   └── todoStore.ts
+├── firebase/
+│   └── config.ts
+├── App.tsx
+└── main.tsx
+└── index.css
 ```
 ---
 
