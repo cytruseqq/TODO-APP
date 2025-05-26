@@ -35,7 +35,7 @@ Każde zadanie to dokument w kolekcji `todos` w Firestore:
   description: string,
   done: boolean,
   createdAt: Timestamp,
-  dueDate?: Timestamp // (opcjonalnie)
+  dueDate: Timestamp
 }
 ```
 
@@ -129,7 +129,7 @@ Projekt edukacyjny. Można korzystać, rozwijać, rozbudowywać ✌️
 
 ---
 
-## 📁 Struktura plików (opcjonalnie)
+## 📁 Struktura plików
 
 ```
 src/
