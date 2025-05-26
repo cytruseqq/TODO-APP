@@ -1,7 +1,4 @@
 # ✅ Todo List App – React + Firebase + Zustand
----
-Autorzy: Witów Adrian 21319, Czyżewska Magdalena 21227
----
 
 Aplikacja Todo List stworzona w React z integracją Firebase (Firestore + Authentication) oraz Zustand jako lokalnym stanem. Obsługuje pracę offline i synchronizację z Firestore po odzyskaniu połączenia.
 
@@ -129,8 +126,6 @@ Projekt edukacyjny. Można korzystać, rozwijać, rozbudowywać ✌️
 
 ---
 
-## 📁 Struktura plików
-
 ```
 src/
 ├── components/
@@ -143,3 +138,51 @@ src/
 ├── App.jsx
 └── main.jsx
 ```
+---
+
+## 🧩 Struktura i opis głównych plików źródłowych
+
+### 📁 App.tsx
+Główna struktura aplikacji:
+- Obsługuje logowanie Firebase i monitoruje stan użytkownika.
+- Przełącza motyw (dark/light) z zapisaniem do `localStorage`.
+- Po zalogowaniu renderuje `TodoForm` i `TodoList`, a w przeciwnym razie `Login`.
+- Obsługuje animowane tło i efekt ładowania.
+
+### 📁 store/todoStore.tsx
+Zarządzanie stanem aplikacji przy użyciu Zustand:
+- `fetchTodos`: pobiera zadania z Firestore zalogowanego użytkownika.
+- `addTodo`: dodaje nowe zadanie z optymistyczną aktualizacją.
+- `toggleDone`: zmienia status ukończenia zadania (z rollbackiem przy błędzie).
+- `deleteTodo`: usuwa zadanie (również z rollbackiem).
+- `clearTodos`: czyści lokalną listę zadań po wylogowaniu.
+
+### 📁 components/Login.tsx
+Komponent odpowiedzialny za logowanie/rejestrację:
+- Logowanie przez e-mail/hasło lub Google.
+- Obsługa błędów logowania z komunikatami.
+- Przycisk przełączania motywu.
+
+### 📁 components/TodoForm.tsx
+Formularz do tworzenia nowego zadania:
+- Walidacja z użyciem React Hook Form + Zod.
+- Obsługuje pola: tytuł, opis, termin wykonania (z walidacją przyszłości).
+- Po dodaniu resetuje formularz.
+
+### 📁 components/TodoItem.tsx
+Pojedyncze zadanie w liście:
+- Wyświetla tytuł, opis i termin.
+- Kolory terminów: czerwony (po terminie), żółty (dziś), zielony (przyszłość).
+- Przycisk do oznaczania jako ukończone oraz usuwania.
+
+### 📁 components/TodoList.tsx
+Lista zadań użytkownika:
+- Renderuje listę `TodoItem` z lokalnego Zustand store.
+- Informacja tekstowa, jeśli brak zadań.
+
+### 📁 components/AnimatedBackground.tsx
+Tło aplikacji z animacją gradientu:
+- Obsługuje różne gradienty dla trybu jasnego i ciemnego.
+- Stosowany zarówno w widoku logowania, jak i głównym.
+
+---
