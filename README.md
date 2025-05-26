@@ -132,6 +132,8 @@ Projekt edukacyjny. Można korzystać, rozwijać, rozbudowywać ✌️
 
 ---
 
+## 🧩 Struktura i opis głównych plików źródłowych
+
 ```
 src/
 ├── components/
@@ -149,8 +151,6 @@ src/
 └── index.css
 ```
 ---
-
-## 🧩 Struktura i opis głównych plików źródłowych
 
 ### 📁 App.tsx
 Główna struktura aplikacji:
