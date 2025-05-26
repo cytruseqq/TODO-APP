@@ -1,4 +1,7 @@
 # ✅ Todo List App – React + Firebase + Zustand
+---
+Autorzy: Witów Adrian 21319, Czyżewska Magdalena 21227
+---
 
 Aplikacja Todo List stworzona w React z integracją Firebase (Firestore + Authentication) oraz Zustand jako lokalnym stanem. Obsługuje pracę offline i synchronizację z Firestore po odzyskaniu połączenia.
 
@@ -12,8 +15,7 @@ Aplikacja Todo List stworzona w React z integracją Firebase (Firestore + Authen
   - Authentication (Google, Email/Password)
 - **Zustand** – zarządzanie stanem
 - **React Hook Form** + **Zod** – walidacja formularzy
-- **Tailwind CSS** (jeśli użyto)
-- **PWA** (jeśli aplikacja wspiera offline w pełni)
+- **Tailwind CSS**
 
 ---
 
@@ -33,7 +35,7 @@ Każde zadanie to dokument w kolekcji `todos` w Firestore:
   description: string,
   done: boolean,
   createdAt: Timestamp,
-  dueDate?: Timestamp // (opcjonalnie)
+  dueDate: Timestamp
 }
 ```
 
@@ -127,7 +129,7 @@ Projekt edukacyjny. Można korzystać, rozwijać, rozbudowywać ✌️
 
 ---
 
-## 📁 Struktura plików (opcjonalnie)
+## 📁 Struktura plików
 
 ```
 src/
