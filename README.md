@@ -196,3 +196,11 @@ Tło aplikacji z animacją gradientu:
 - Stosowany zarówno w widoku logowania, jak i głównym.
 
 ---
+
+## 📬 Kontakt
+
+W razie pytań:
+- Email: adrian_witow@o2.pl
+- GitHub: https://github.com/cytruseqq/
+
+---
