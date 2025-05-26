@@ -2,13 +2,17 @@
 
 Aplikacja Todo List stworzona w React z integracją Firebase (Firestore + Authentication) oraz Zustand jako lokalnym stanem. Obsługuje pracę offline i synchronizację z Firestore po odzyskaniu połączenia.
 
+---
+
 ## 🔧 Technologie
 
 - **React**
-- **Firebase** (Firestore + Auth)
+- **Firebase**
+  - Firestore
+  - Authentication (Google, Email/Password)
 - **Zustand** – zarządzanie stanem
-- **React Hook Form** + **Zod** – walidacja formularza
-- **Tailwind CSS** (opcjonalnie, jeśli użyto)
+- **React Hook Form** + **Zod** – walidacja formularzy
+- **Tailwind CSS** (jeśli użyto)
 - **PWA** (jeśli aplikacja wspiera offline w pełni)
 
 ---
@@ -16,10 +20,10 @@ Aplikacja Todo List stworzona w React z integracją Firebase (Firestore + Authen
 ## ✨ Funkcjonalność
 
 ### 🔒 Logowanie użytkownika
-- Firebase Authentication (Google / e-mail+hasło)
-- Po zalogowaniu użytkownik widzi tylko swoje zadania
+- Firebase Authentication (Google / e-mail + hasło)
+- Po zalogowaniu użytkownik widzi **tylko swoje zadania**
 
-### ✅ Zadania (todos)
+### 📝 Zadania (`todos`)
 Każde zadanie to dokument w kolekcji `todos` w Firestore:
 
 ```ts
@@ -29,31 +33,32 @@ Każde zadanie to dokument w kolekcji `todos` w Firestore:
   description: string,
   done: boolean,
   createdAt: Timestamp,
-  dueDate?: Timestamp
+  dueDate?: Timestamp // (opcjonalnie)
 }
+```
 
-📦 Zarządzanie stanem (Zustand)
-todos przechowywane lokalnie
+### ⚙️ Stan aplikacji (Zustand)
+- `todos` przechowywane lokalnie
+- Komponenty korzystają tylko z danych z Zustand
+- Zmiany:
+  - najpierw lokalnie (optimistic update)
+  - potem aktualizacja w Firestore
+  - w razie błędu: rollback do poprzedniego stanu
 
-Komponenty korzystają tylko z danych ze stanu lokalnego
+---
 
-Zmiany: najpierw lokalnie, potem Firestore
+## 🔄 Obsługa offline
 
-🕸️ Offline & Synchronizacja
-Aplikacja działa offline dzięki lokalnemu stanowi
+- Aplikacja działa offline dzięki lokalnemu Zustand
+- Po odzyskaniu sieci następuje **synchronizacja z Firestore**
+- Błędy zapisu (np. brak internetu) są obsługiwane:
+  - dane lokalne są przywracane do poprzedniego stanu
 
-Po odzyskaniu sieci – zmiany synchronizują się z Firestore
+---
 
-Błędy zapisu do Firestore powodują rollback (cofnięcie lokalnej zmiany)
+## 🧠 Architektura Zustand Store (skrót)
 
-🧠 Architektura Zustand Store
-ts
-Kopiuj
-Edytuj
-import { create } from 'zustand'
-import { db } from './firebase'
-import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore'
-
+```ts
 const useTodoStore = create((set, get) => ({
   todos: [],
   fetchTodos: async () => { ... },
@@ -61,59 +66,78 @@ const useTodoStore = create((set, get) => ({
   toggleDone: async (id) => {
     const todo = get().todos.find(t => t.id === id)
     const previousDone = todo.done
-    set(...lokalna zmiana...)
+    set(...zmiana lokalna...)
     try {
       await updateDoc(...)
     } catch (err) {
-      console.error('Rollback')
-      set(...przywrócenie wartości...)
+      console.error('Błąd Firestore – cofanie zmiany')
+      set(...rollback...)
     }
   },
   deleteTodo: async (id) => { ... }
 }))
-📋 Komponenty aplikacji
-TodoForm
-Dodawanie nowych zadań
+```
 
-Walidacja z użyciem React Hook Form + Zod
+---
 
-TodoList
-Wyświetla listę zadań z Zustanda
+## 🧩 Komponenty aplikacji
 
-Obsługuje filtrowanie i sortowanie (opcjonalnie)
+### `TodoForm`
+- Formularz do dodawania zadań
+- Walidacja przy użyciu React Hook Form + Zod
 
-TodoItem
-Jedno zadanie
+### `TodoList`
+- Wyświetla listę zadań z lokalnego stanu
 
-Możliwość oznaczenia jako ukończone / usunięcia
+### `TodoItem`
+- Jedno zadanie
+- Możliwość oznaczenia jako ukończone lub usunięcia
 
-🕒 Dodatkowe funkcje
-dueDate: termin wykonania zadania
+---
 
-Zadania zbliżające się do terminu są oznaczane innym kolorem
+## ⏰ Dodatkowe funkcje
 
-Zadania po terminie są dodatkowo wyróżnione
+- **dueDate** – termin wykonania zadania
+- Zadania zbliżające się do terminu są oznaczone kolorem
+- Zadania po terminie są specjalnie wyróżnione
 
-🛠️ Firebase Setup
-Skonfiguruj projekt Firebase
+---
 
-Włącz Authentication i dodaj domeny do Authorized domains (np. todoapka.web.app)
+## 🔧 Firebase Setup – ważne!
 
-Skonfiguruj Firestore – kolekcja todos
+1. Włącz Authentication (Google, Email/Password)
+2. Dodaj swoje domeny do **Authorized Domains**
+   - Przykład: `todoapka.web.app`, `apka-projekt.web.app`
+3. Skonfiguruj Firestore – kolekcja `todos`
+4. Użyj `signInWithPopup` lub `signInWithRedirect` dla logowania
 
-Użyj signInWithPopup lub signInWithRedirect do logowania przez Google
+> 🔥 Jeśli logowanie nie działa – upewnij się, że Twoja domena jest dodana w **Authentication → Settings → Authorized Domains**
 
-🔮 Przyszłe rozszerzenia (opcjonalne)
-Powiadomienia push o zbliżających się zadaniach
+---
 
-Filtrowanie zadań (ukończone / nieukończone / po terminie)
+## 🧪 Demo
 
-Podział na listy zadań / tagi
+🔗 [Zobacz działającą wersję](https://todoapka.web.app)
 
-Drag & Drop kolejności
+---
 
-🧪 Demo
-🔗 Zobacz działającą wersję
+## 📜 Licencja
 
-📜 Licencja
-Projekt edukacyjny. Można korzystać, uczyć się i rozwijać ✌️
+Projekt edukacyjny. Można korzystać, rozwijać, rozbudowywać ✌️
+
+---
+
+## 📁 Struktura plików (opcjonalnie)
+
+```
+src/
+├── components/
+│   ├── TodoForm.jsx
+│   ├── TodoList.jsx
+│   └── TodoItem.jsx
+├── store/
+│   └── todoStore.js
+├── firebase.js
+├── App.jsx
+└── main.jsx
+```
